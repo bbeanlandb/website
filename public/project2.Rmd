@@ -1,0 +1,249 @@
+---
+title: "Modeling Project"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE,fig.align="center",warning=FALSE,message=FALSE,fig.width=8, fig.height=5, linewidth=60)
+options(tibble.width = 100,width = 100)
+library(tidyverse)
+```
+
+
+## Data Introduction
+
+The dataset used for this project is an R dataset on factors influencing fatalties in fatal car accidents. Of the variables included in the dataset, main variables include estimated impact speeds, the sex of the occupants, the role of the occupant (i.e driver), whether the occupant was seat belted, whether the car had airbags and whether the airbag was deployed. Furthermore, information such as the year of the accident, year of the car, type of accident (i.e front on conclision), and whether or not the occupant died or not are all variables that may shed light on what factors are most influential on fatal car accident outcomes. The total number of observations in the dataset is 26217, and the total number of variables in the dataset is 15.
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(dplyr)
+fatalities <- read.csv("~/Downloads/caraccident.csv")
+head(fatalities)
+```
+
+## MANOVA
+A MANOVA test was conducted to determine if the numeric variables weight, age of occupant, year of accident, and year of vehicle, displayed mean differences between the categorical variable of level of injury severity. The levels of injury severityy were 0 (no injury), 1 (possible injury), 2(no incapacity), 3(incapacity), 4(death), 5(unknown), and 6(prior death). 
+
+```{r}
+library(dplyr)
+fatalities<-fatalities%>%na.omit
+man1<-manova(cbind(weight, ageOFocc, yearacc, yearVeh)~injSeverity, data=fatalities)
+summary(man1)
+summary.aov(man1)
+fatalities%>%group_by(injSeverity)%>%summarise(mean(weight),mean(ageOFocc),mean(yearacc),mean(yearVeh))
+pairwise.t.test(fatalities$weight, fatalities$injSeverity, p.adj="none")
+pairwise.t.test(fatalities$ageOFocc, fatalities$injSeverity, p.adj="none")
+pairwise.t.test(fatalities$yearacc, fatalities$injSeverity, p.adj="none")
+pairwise.t.test(fatalities$yearVeh, fatalities$injSeverity, p.adj="none")
+
+1-0.95^29
+0.05/29
+
+#Assumptions
+library(ggExtra)
+ggplot(fatalities, aes(x =yearVeh, y = yearacc)) +
+geom_point(alpha = .5) + geom_density_2d(h=2) + coord_fixed() + facet_wrap(~injSeverity)
+```
+The assumptions for conducting a MANOVA were assessed. The random sample with independent observations assumption was likely met due to the nature of the data collected. A DV plot was created to assess DV assumption of normality, and based on the plot shape the assumption of normality failed. The assumption of DV linear relationships may not have been met for the dependent variable of year of accident. Lastly, there is likely univariate and multivariate outliers as well. Multicolineraity was likely not met. Though these assumptions were analyzed theoretically by eye-balling, statistical analysis using specific ggplots and more tests would concretely determine if assumptions were met. 
+
+After conducting the MANOVA a significant p-value of < 2.2e-16 was obtained indicating that there was variation in at least one numeric variable across levels of injury severity. Single ANOVA tests were conducted to see which variables displayed between level variation. 
+
+With 1 MANOVA, 4 ANOVA, and 4 post hoc test (each with 6 levels), the number of hypothesis tests conduct in total was 29. The likelihood that a type I error occured was calculated to be an 77.41% chance. The adjusted p-value was determined to be 0.0017, and the bonferonni adjustment allowed for appropriate conclusions to be made. The mean weight was significantly different for the injury severities of no injury and no incapacity. The mean age of the occupant was signifcantly different for no injury, possible injury, no incapacity, and incapcity injury severities. The mean year of the accident happening had no significant differences based on severity of injuries. The mean year of the vechicle driven during the car accident was significantly different for possible injury, no incapacity, and incapacity. 
+
+## Randomization Testing
+A randomization test was conducted to determine if there was a significant mean difference in age based on whether or not the occupant died or lived in the crash. The randomization was conducted 5000 times, and p-values were analyzed. 
+```{R}
+library(dplyr)
+#conducting the t-test
+fatalities%>%group_by(dead)%>%summarise(mean(ageOFocc))
+t.test(data=fatalities, ageOFocc~dead)
+
+#Randomization 
+rand_dist<-vector()
+for(i in 1:5000){
+new<-data.frame(age=sample(fatalities$ageOFocc),condition=fatalities$dead)
+rand_dist[i]<-mean(new[new$condition=="dead",]$age)-
+mean(new[new$condition=="alive",]$age)}
+
+
+hist(rand_dist,main="",ylab=""); abline(v = -7.75824,col="red")
+mean(rand_dist>  7.75824| rand_dist< - 7.75824)
+
+```
+Mean difference test was conducted to determine if the mean age of occupants that died during the car accident is different than the mean of occupants that lived. 
+Null Hypothesis: Mean age of occupant is the same for those classified as dead or alive. 
+Alternative Hypothesis: Mean age of occupant is different for those classified as dead versus alive.
+The difference in mean age of dead or alive was calculated to be 7.75824. 
+Based on the results of the randomization test, the p-value calculated using a two-tail calculation was 0. This would cause a failure to reject the null hypothesis because the p-value is greater than 0.05. This indicates that the randomization concluded the mean differences in age between dead and alive were the same. When conducting the actual welch t-test, the p-value is very small < 2.2e-16 causing a rejection of the null hypothesis which indicates the means are different. 
+
+## Linear Regression
+A linear regression model was created to see if age of the occupant and sex were predictive of injury severity sustained in the car accdient.  
+
+```{R}
+library(lmtest)
+library(dplyr)
+fatalities<-fatalities%>%na.omit()
+head(fatalities)
+fatalities$age_c <- fatalities$ageOFocc - mean(fatalities$ageOFocc)
+any(is.na(fatalities))
+fatalities$injSeverity<-as.numeric(fatalities$injSeverity)
+fatalities<-fatalities%>%na.omit
+
+fit<-lm(injSeverity~age_c*sex, data = fatalities)
+summary(fit)
+
+
+#graphical representation of regression model
+library(ggplot2)
+ggplot(fatalities,aes(y=injSeverity,x=age_c,color=sex))+geom_smooth(method="lm")
+
+#Checking Assumptions
+#linear- not met
+plot(fit, 1)
+#normality
+plot(fit, 2)
+#homoskedastically- not met
+ggplot(fatalities,aes(y=injSeverity,x=age_c,color=sex))+geom_point()+stat_smooth(method="lm",se=FALSE)
+
+#Robust standard errors
+library(sandwich)
+library(lmtest)
+coeftest(fit, vcov=vcovHC(fit))
+ 
+```
+    Assumptions were assessed graphically for homoskedasticity. By viewing the graph, it can be observed that as the injury severity increases to categories 5 and 6 there is increased variation in points plotted. This indicates that the regression model fails the homoskedasticity assumption. A Q-Q plot was created to assess normality, and due to the data not following a straight line the data does not meet the normality assumption. Finally, linearity was assesed and the graph displays points that are not evenly distributed across the horizontal line which indicates the model fails to meet the linearity assumption. In summary, all three assumptions assesed failed. 
+    After running the regression model to see the relationship of age of occupant and sex, as well as the interaction between the two, on injury severity the results were multifaceted. The intercept is interpreted as the avaerage injury severity for the average aged person is 1.712. In addition, for every 1 year increase in age, injury severity increases by 0.0074. On average, males sustain .097 less injury severity than women. Finally, the interaction between sex and age confers that for every one unit increase in age for males, injury severity is reducced by 0.0018.
+    By conducting a new regression with robust standard errors there were still 3 significant p-values. Specifically, age centered is a signifcant predictor of injury severity with a p-value of 2.2e-16. In addition, sex is a significant predictor of injury severity with a p-value of 0.004. The interaction between sex and age is not a significant predictor. All significance determinations stayed the say between the original test and the test with standard robust errors. 
+    Overall, the regression model looking at sex and age as predictors of injury severity of the occupants in the car accident only explains around 1% of the variation in injury severity. The adjust r-value of 0.009 produced this precentage and is appropriate to use becuase it penalizes for extra explanatory variables. 
+    
+## Bootstrapped Linear Regression
+The same linear regression model was completed using bootstrapped standard errors and differences were discussed.
+```{R}
+fit1<-lm(injSeverity~age_c*sex, data = fatalities)
+resids<-fit1$residuals
+fitted<-fit1$fitted.values 
+resid_resamp<-replicate(5000,{
+new_resids<-sample(resids,replace=TRUE) 
+fatalities$new_y<-fitted+new_resids
+fit1<-lm(new_y~age_c*sex,data=fatalities)
+coef(fit1)
+})
+coef(fit1)
+summary(fit1)
+
+resid_resamp%>%t%>%as.data.frame%>%summarize_all(sd)
+coeftest(fit, vcov=vcovHC(fit))
+summary(fit)
+```
+Analyzing the new SEs from the bootstrapped model, the intercept SE has been reduced slightly from the original model to 0.01497 as it was previously 0.0150. The other standard errors stayed essentially the same between the models compared to the bootstrap model. In addition, the p-values stayed the same as well as the the significance cutoffs obtained from both the original model and robust errors model when compared to the bootstrapped model. In other words, there was no change in significance. 
+
+## Logistic Regression
+A logistic regression was conducted to explore the relationship of occupant role and frontal crashes on whether the occupant lived or died. 
+```{R}
+library(tidyverse)
+library(dplyr)
+library(lmtest)
+fatalities<-fatalities%>%mutate(y=ifelse(dead=="dead",1,0))
+head(fatalities)
+fatalities<-fatalities%>%na.omit()
+fitl<-glm(y~occRole+frontal, data=fatalities, family=binomial(link="logit"))
+coeftest(fitl)
+exp(coef(fitl))
+
+
+#confusion matrix
+probs<-predict(fitl,type="response")
+table(truth=fatalities$dead,predict=as.numeric(probs>.5))%>%addmargins
+14969/15677
+
+
+#Density Plot
+fatalities$logit<-predict(fitl, type = "link")
+fatalities%>%ggplot()+geom_density(aes(probs,color=dead,fill=dead), alpha=.4)+theme(legend.position=c(.85,.85))+geom_vline(xintercept=0)+xlab("logit (log-odds)")+geom_rug(aes(logit,color=dead))+ xlim(-.5,.5)
+
+#ROC 
+library(plotROC)
+probs<-predict(fitl,type="response")
+ROCplot<-ggplot(fatalities)+geom_roc(aes(d=y,m=probs), n.cuts=0) 
+ROCplot
+calc_auc(ROCplot)
+
+#CV 
+class_diag <- function(probs,truth){
+tab<-table(factor(probs>.5,levels=c("FALSE","TRUE")),truth)
+acc=sum(diag(tab))/sum(tab)
+sens=tab[2,2]/colSums(tab)[2]
+spec=tab[1,1]/colSums(tab)[1]
+ppv=tab[2,2]/rowSums(tab)[2]
+if(is.numeric(truth)==FALSE & is.logical(truth)==FALSE) truth<-as.numeric(truth)-1
+
+ord<-order(probs, decreasing=TRUE)
+probs <- probs[ord]; truth <- truth[ord]
+TPR=cumsum(truth)/max(1,sum(truth))
+FPR=cumsum(!truth)/max(1,sum(!truth))
+dup<-c(probs[-1]>=probs[-length(probs)], FALSE)
+TPR<-c(0,TPR[!dup],1); FPR<-c(0,FPR[!dup],1)
+n <- length(TPR)
+auc<- sum( ((TPR[-1]+TPR[-n])/2) * (FPR[-1]-FPR[-n]) )
+data.frame(acc,sens,spec,ppv,auc)
+} 
+
+set.seed(1234)
+k=10 
+fatalities<-fatalities[sample(nrow(fatalities)),] 
+folds<-cut(seq(1:nrow(fatalities)),breaks=k,labels=F)
+diags<-NULL
+for(i in 1:k){
+train<-fatalities[folds!=i,]
+test<-fatalities[folds==i,]
+truth<-test$y 
+fit<-glm(y~occRole+frontal,data=fatalities,family="binomial")
+probs<-predict(fit,newdata = test,type="response")
+diags<-rbind(diags,class_diag(probs,truth))
+}
+diags%>%summarize_all(mean)
+
+```
+  After running the logisitic regression, the coefficients were interpretted in context. The odds of death for passengers in the car accident, controling for type of crash, are 1.1867 times higher than that of the driver. Further, the odds of death when involved in a frontal car accident, controling for occupant role, are 0.5249 times higher than non-frontal crashes. The intercept is interpreted to communicate that the odds of dying in a car accident for the driver when frontal=0 (not a frontal crash), based on the data studied here, is 0.065. 
+  The confusion matrix produced informs the viewer on the Accuracy, Sensitivity (TPR), Specificity (TNR), and Recall (PPV) of the model. The Accuracy of the model = 95.48% which indicates that  95 percent of the cases were correctly classified. The Sensitivity (TPR) of the model = 0  which indicates the proportion of deaths correctly classified as death. The Specificity (TNR) of the model = 0  which indicates the proportion of living cases correctly classified as living. The PPV of this model would be 0 because that describes the proportion classified as dead that were actually dead, and there were no predicitions of dead (1), (no p>.5). 
+  An ROC curve was generated and the AUC value was calculated to be 0.5883. This is a bad AUC value because it communicates that the test is only slightly better at predicting the correct outcome than a completely uninformative test. A 50/50 chance at correct prediction would produce a straight line, and as seen in the ROC curve for this model the line only slightly deviates from the straight line. Ultimately, this is a bad ROC curve and bad AUC value. 
+  A 10-fold cross-validation test was conducted, and the AUC values stayed virtually the same whith the CV AUC coming out to 0.5863. This, again, is a bad AUC value indicating that the model is a poor predictor of the outcome of death. The sensitivity of the CV model was 0, indicating that there were zero deaths correctly classified as deaths by the CV model. The accuracy by the CV model was 95.45% which is similar to the values indicated in the original regression model's confusion matrix. The ppv was reported as NA by the cv model. 
+
+## LASSO
+```{r}
+library(glmnet)
+fatalities<-fatalities%>%select(!logit)
+fatalities<-fatalities%>%select(!y)
+fatalities<-fatalities%>%select(!caseid)
+
+y<-as.matrix(fatalities$frontal) 
+x<-model.matrix(frontal~.,data=fatalities)[,-1]
+head(x)
+x<-scale(x)
+cv<-cv.glmnet(x,y,family="binomial")
+lasso<-glmnet(x,y,family="binomial",lambda=cv$lambda.1se)
+coef(lasso)
+
+#cross-validating lasso model 
+set.seed(1234)
+k=10
+data <- fatalities %>% sample_frac 
+folds <- ntile(1:nrow(data),n=10)
+diags<-NULL
+for(i in 1:k){
+train <- data[folds!=i,]
+test <- data[folds==i,] 
+truth <- test$frontal
+fit <- glm(frontal~`dvcat`+`dvcat`+`weight`+`dead`+`seatbelt`+`sex`+`yearVeh`+`abcat`+`occRole`+`deploy`+`injSeverity`,data=train, family="binomial")
+probs <- predict(fit, newdata=test, type="response")
+diags<-rbind(diags,class_diag(probs,truth))
+}
+diags%>%summarize_all(mean)
+```
+  Upon conducting the LASSO on predictors of frontal crashes, a binary response variable, there were a good amount of variables retained. For speed of impact, categories 25-39, 40-54, and 55+ mph were all retained as predictive variables of whether a crash was frontal or not. Further, weight, dead, seatbelt, sex, age of occupant, year of the vehicle, the airbag deploying or not, the role of the occupant, and injury severity 1 and 3 were all retained as predictive variables. Most of these variables are inuitive, for example whether the airbag deployed or not seems logical that is would be a predictor of whether the accident was a frontal crash. Note: X and afe_c were not included in the following CV as age_c would be a redundant predictor, and X is a variable indicating the observation number. To see how this model held, cross-validation was conducted.
+  The cross validation out-of-sample accuracy was 0.7178 which is lower than the accuracy observed from the previous cross validation in question 5 of 0.9547. Interesting, the AUC of the lasso cross-validation increased measurably to 0.7197 classifying the model as fair. This is greatly different than the "bad"" model from question 5 that had an AUC value of 0.58. 
+
+

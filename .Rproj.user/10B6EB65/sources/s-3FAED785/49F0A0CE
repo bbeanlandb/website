@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1588636895493.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "49F0A0CE",
+    "lastKnownWriteTime" : 140703128616964,
+    "last_content_update" : 1588636895493,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "A90A7A7C",
+        "caption" : "Health_Data",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=Health_Data&cache_key=A90A7A7C",
+        "displayedObservations" : 88,
+        "environment" : "",
+        "expression" : "Health_Data",
+        "object" : "Health_Data",
+        "preview" : 0,
+        "totalObservations" : 88,
+        "variables" : 5
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
