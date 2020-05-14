@@ -7,7 +7,7 @@ categories: []
 tags: []
 description: ''
 ---
-![](/blog/2020-05-14-r-or-python-why-not-both_files/Screen Shot 2020-05-14 at 1.28.10 PM.png)
+![](/AMPBrookeBeanland-8090.png)
 
 ## R or Python? Why not both! 
 
