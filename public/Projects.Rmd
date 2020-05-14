@@ -1,6 +1,7 @@
 ---
 title: "Projects"
 output: html_document
+Date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}
@@ -8,4 +9,4 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
  - [Project 1](/project1)  
- - [project 2](/project2)
+ - [Project 2](/project2)
