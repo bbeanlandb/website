@@ -2,7 +2,9 @@
 title: "My First Blog"
 author: "Brooke Beanland"
 date: '2020-05-12'
-output: pdf_document
+output:
+  pdf_document: default
+  word_document: default
 description: ''
 slug: my-first-blog
 tags: []
@@ -25,16 +27,25 @@ Our first step in solving this language barrier issue in the coding world is lea
 
 First install the magical package reticulate.
 
-
+```{R}
+library(reticulate)
+```
 
 Once this is installed you can look at the differences between the two langauges. Let's practice this by looking at how R and Pyhton differ when naming things. Here I tell R that learning for me is "two languages". Therefore when people ask me what I am learning these days, I can simply run learning in R and the answer will return back seamlessly.  
 
-
+```{R}
+learning<-"two languages"
+learning
+```
 
 In Python, naming things occurs a little differently. I like to think of it as more a math brained type of system, as to name something you use the equals sign. Bascially, I am telling the computer what the thing I am naming equals. Take a look!
 
+```{python}
+Smart="Brooke"
+Smart
+```
 
-I kind of like python for that reason, 
+I kind of like python for that reason, it links well with my math brain on simple tasks like naming things. 
 
 Using reticulate I will continue my journey of trying to learn another coding language, Python. Hey, if it doesn't work out as planned, I kind of have grown to love R anyways. :') 
 
