@@ -1,11 +1,12 @@
 ---
-title: My First Blog
-author: Brooke Beanland
+title: "My First Blog"
+author: "Brooke Beanland"
 date: '2020-05-12'
-slug: my-first-blog
-categories: []
-tags: []
+output: pdf_document
 description: ''
+slug: my-first-blog
+tags: []
+categories: []
 ---
 
 ## R or Python? Why not both! 
@@ -14,7 +15,7 @@ Being "able to code" seems like a universal skill applicable to any coding issue
 
 My Brother: "oh yeah, I can help with that. You just need a for loop, what language does your class use"
 Me: R!!
-My Brother: *crickets*
+My Brother: *crickets* 
 
 Crickets...followed by him saying "okay yeah I can't help much now, I don't know R." But you know how to code? It's a universal skill right? All wishful thinking. We hit a brick wall becuase his coding language and my coding language were not the same. How to solve this in the future?? KNOW MORE LANGAUGES! Simple, right?
 
