@@ -3,6 +3,7 @@ title: "Exploratory Data Analysis"
 output:
   pdf_document: default
   html_document: default
+date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}

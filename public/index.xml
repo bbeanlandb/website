@@ -6,10 +6,29 @@
     <description>Recent content on Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 02 Oct 2016 22:55:05 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Exploratory Data Analysis</title>
+      <link>/project1/</link>
+      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project1/</guid>
+      <description>Introduction This project will explore personal health data from wearable technology. The two data sets used are Health_Data and Workout_Data. The health data was exported from the apple health app with data obtained from my apple watch. Similarly, the workout data was exported from the apple watch activity application.
+These datasets have the common varaible of Date. The health data set contains the variables of total active calories, total distance, total steps, and total resting calories for each date in which it was worn.</description>
+    </item>
+    
+    <item>
+      <title>Modeling Project</title>
+      <link>/project2/</link>
+      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project2/</guid>
+      <description>Data Introduction The dataset used for this project is an R dataset on factors influencing fatalties in fatal car accidents. Of the variables included in the dataset, main variables include estimated impact speeds, the sex of the occupants, the role of the occupant (i.e driver), whether the occupant was seat belted, whether the car had airbags and whether the airbag was deployed. Furthermore, information such as the year of the accident, year of the car, type of accident (i.</description>
+    </item>
     
     <item>
       <title>R or Python? Why Not Both!</title>
@@ -30,25 +49,6 @@
   Exploratory Data Analysis with Tidyverse Tools
   Modeling, Testing, and Classification
   </description>
-    </item>
-    
-    <item>
-      <title>Exploratory Data Analysis</title>
-      <link>/project1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project1/</guid>
-      <description>Introduction This project will explore personal health data from wearable technology. The two data sets used are Health_Data and Workout_Data. The health data was exported from the apple health app with data obtained from my apple watch. Similarly, the workout data was exported from the apple watch activity application.
-These datasets have the common varaible of Date. The health data set contains the variables of total active calories, total distance, total steps, and total resting calories for each date in which it was worn.</description>
-    </item>
-    
-    <item>
-      <title>Modeling Project</title>
-      <link>/project2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project2/</guid>
-      <description>Data Introduction The dataset used for this project is an R dataset on factors influencing fatalties in fatal car accidents. Of the variables included in the dataset, main variables include estimated impact speeds, the sex of the occupants, the role of the occupant (i.e driver), whether the occupant was seat belted, whether the car had airbags and whether the airbag was deployed. Furthermore, information such as the year of the accident, year of the car, type of accident (i.</description>
     </item>
     
   </channel>

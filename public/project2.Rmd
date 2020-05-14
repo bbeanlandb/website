@@ -3,6 +3,7 @@ title: "Modeling Project"
 output:
   pdf_document: default
   html_document: default
+Date: "`r Sys.Date()`"
 ---
 
 ```{r setup, include=FALSE}

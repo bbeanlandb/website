@@ -44,7 +44,7 @@
         
         <li><a href="/projects/">PROJECTS</a></li>
         
-        <li><a href="/resume/">RESUME</a></li>
+        <li><a href="/resume.pdf">RESUME</a></li>
         
       
       </ul>
@@ -61,7 +61,7 @@
         </div>
         <div class="blog-title">
           <h4>
-          January 1, 0001
+          May 14, 2020
             &nbsp;&nbsp;
             
           </h4>
@@ -379,8 +379,8 @@ coef(fit1)</code></pre>
 ## Multiple R-squared:  0.00991,    Adjusted R-squared:  0.009796 
 ## F-statistic: 86.94 on 3 and 26059 DF,  p-value: &lt; 2.2e-16</code></pre>
 <pre class="r"><code>resid_resamp%&gt;%t%&gt;%as.data.frame%&gt;%summarize_all(sd)</code></pre>
-<pre><code>##   (Intercept)        age_c       sexm   age_c:sexm
-## 1  0.01160932 0.0006308644 0.01596164 0.0008832995</code></pre>
+<pre><code>##   (Intercept)        age_c       sexm  age_c:sexm
+## 1  0.01181625 0.0006388076 0.01604335 0.000899821</code></pre>
 <pre class="r"><code>coeftest(fit, vcov=vcovHC(fit))</code></pre>
 <pre><code>## 
 ## t test of coefficients:
