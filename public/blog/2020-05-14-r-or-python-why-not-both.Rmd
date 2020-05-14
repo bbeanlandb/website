@@ -1,18 +1,12 @@
 ---
-title: "My First Blog"
-author: "Brooke Beanland"
-date: '2020-05-12'
-output:
-  html_document:
-    df_print: paged
-  pdf_document: default
-  word_document: default
-description: ''
-slug: my-first-blog
-tags: []
+title: R or Python? Why Not Both!
+author: Brooke Beanland
+date: '2020-05-14'
+slug: r-or-python-why-not-both
 categories: []
+tags: []
+description: ''
 ---
-
 ## R or Python? Why not both! 
 
 Being "able to code" seems like a universal skill applicable to any coding issue you may need to solve, right? Sadly, not quite. Let me explain. During this COVID-19 pandemic I got to spend much more time with my family than planned. Because of this, my family was well aware of me schooling-from-home and they were super supportive. My brother, who graduated from UT with a degree in Petroleum Engineering, was particularly stoked when he heard I needed some help on my coding homework. Finally, a topic he knew well and could actually help me with...that is, until he asked me what language I was using. 
@@ -53,4 +47,3 @@ Using reticulate I will continue my journey of trying to learn another coding la
 
 With coding love, 
 Brooke 
-

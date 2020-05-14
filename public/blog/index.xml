@@ -6,18 +6,18 @@
     <description>Recent content in Blogs on Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 12 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>My First Blog</title>
-      <link>/blog/my-first-blog/</link>
-      <pubDate>Tue, 12 May 2020 00:00:00 +0000</pubDate>
+      <title>R or Python? Why Not Both!</title>
+      <link>/blog/r-or-python-why-not-both/</link>
+      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/blog/my-first-blog/</guid>
-      <description></description>
+      <guid>/blog/r-or-python-why-not-both/</guid>
+      <description>R or Python? Why not both! Being “able to code” seems like a universal skill applicable to any coding issue you may need to solve, right? Sadly, not quite. Let me explain. During this COVID-19 pandemic I got to spend much more time with my family than planned. Because of this, my family was well aware of me schooling-from-home and they were super supportive. My brother, who graduated from UT with a degree in Petroleum Engineering, was particularly stoked when he heard I needed some help on my coding homework.</description>
     </item>
     
   </channel>
