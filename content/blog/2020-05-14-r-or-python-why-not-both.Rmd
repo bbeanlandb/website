@@ -17,7 +17,7 @@ My Brother: "oh yeah, I can help with that. You just need a for loop, what langu
 Me: R!!
 My Brother: *crickets* 
 
-Crickets...followed by him saying "okay yeah I can't help much now, I don't know R." But you know how to code? It's a universal skill right? All wishful thinking. We hit a brick wall becuase his coding language and my coding language were not the same. How to solve this in the future?? KNOW MORE LANGAUGES! Simple, right?
+Crickets...followed by him saying "okay yeah I can't help much now, I don't know R." But you know how to code? It's a universal skill right? All wishful thinking. We hit a brick wall becuase his coding language and my coding language were not the same. How to solve this in the future?? KNOW MORE LANGUAGES! Simple, right?
 
 ## Your Coding Skills Are Only Ask Good As The Language You Know
 
@@ -29,14 +29,14 @@ First install the magical package reticulate.
 library(reticulate)
 ```
 
-Once this is installed you can look at the differences between the two langauges. Let's practice this by looking at how R and Pyhton differ when naming things. Here I tell R that learning for me is "two languages". Therefore when people ask me what I am learning these days, I can simply run learning in R and the answer will return back seamlessly.  
+Once this is installed you can look at the differences between the two languages. Let's practice this by looking at how R and Python differ when naming things. Here I tell R that learning for me is "two languages".Funny, right? Because that is what I am learning right now! Therefore when people ask me what I am learning these days, I can simply run learning in R and the answer will return back seamlessly- two languages. 
 
 ```{R}
 learning<-"two languages"
 learning
 ```
 
-In Python, naming things occurs a little differently. I like to think of it as more a math brained type of system, as to name something you use the equals sign. Bascially, I am telling the computer what the thing I am naming equals. Take a look!
+In Python, naming things occurs a little differently. I like to think of it as more of a math brained type of system, as to name something you use the equals sign. Bascially, I am telling the computer what the thing I am naming equals. Take a look!
 
 ```{python}
 Smart="Brooke"
@@ -44,6 +44,7 @@ Smart
 ```
 
 I kind of like python for that reason, it links well with my math brain on simple tasks like naming things. 
+
 
 Using reticulate I will continue my journey of trying to learn another coding language, Python. Hey, if it doesn't work out as planned, I kind of have grown to love R anyways. :') 
 
